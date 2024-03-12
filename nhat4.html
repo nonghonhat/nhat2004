@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoantu()" type="submit" value="baitoantu">
+    <script>
+        function baitoantu(){ 
+// Hàm tính tổng thời gian hoàn thành công việc trên tất cả các máy
+function calculateCompletionTime(schedule) {
+    let maxTime = 0;
+    for (let j = 0; j < schedule[0].length; j++) {
+        let time = 0;
+        for (let i = 0; i < schedule.length; i++) {
+            time += schedule[i][j];
+        }
+        maxTime = Math.max(maxTime, time);
+    }
+    return maxTime;
+}
+
+// Hàm lập lịch SJF
+function scheduleSJF(times) {
+    const n = times.length; // Số lượng chi tiết
+    const m = times[0].length; // Số lượng máy
+
+    // Sắp xếp thời gian thực hiện trên mỗi máy
+    for (let i = 0; i < m; i++) {
+        times[i].sort((a, b) => a - b);
+    }
+
+    const schedule = Array(n).fill().map(() => Array(m).fill(0)); // Lịch thực hiện công việc trên các máy
+
+    // Lập lịch SJF
+    for (let j = 0; j < m; j++) {
+        let currentTime = 0; // Thời gian hiện tại trên máy j
+        for (let i = 0; i < n; i++) {
+            schedule[i][j] = times[j][i]; // Gia công chi tiết i trên máy j
+            currentTime += times[j][i]; // Cập nhật thời gian hiện tại
+        }
+    }
+
+    return {
+        schedule,
+        completionTime: calculateCompletionTime(schedule)
+    };
+}
+
+// Dữ liệu mẫu
+const times = [
+    [3, 6, 2],
+    [2, 4, 1]
+];
+
+// Lập lịch và in ra kết quả
+const { schedule, completionTime } = scheduleSJF(times);
+console.log("Lịch thực hiện công việc trên các máy:");
+console.log(schedule);
+console.log("Thời gian hoàn thành tất cả công việc:", completionTime);
+
+    }
+</script>
+</body>
+</html>

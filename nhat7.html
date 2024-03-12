@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoanf()" type="submit" value="baitoanf">
+    <script>
+        function baitoanf(){ 
+
+            const INF = Infinity;
+
+// Đồ thị biểu diễn ma trận trọng số của mạng lưới điện
+const graph = [
+    [0, -3, INF, 5],
+    [INF, 0, 2, INF],
+    [INF, INF, 0, 1],
+    [INF, INF, INF, 0]
+];
+
+// Hàm tìm đường đi dài nhất giữa tất cả các cặp đỉnh sử dụng thuật toán Floyd-Warshall
+function floydWarshallLongestPath(graph) {
+    const n = graph.length;
+    const dist = Array.from(Array(n), () => Array(n).fill(0));
+
+    // Khởi tạo ma trận kết quả ban đầu
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (graph[i][j] !== 0) {
+                dist[i][j] = graph[i][j];
+            } else if (i !== j) {
+                dist[i][j] = -INF; // Đảo dấu trọng số
+            }
+        }
+    }
+
+    // Áp dụng thuật toán Floyd-Warshall
+    for (let k = 0; k < n; k++) {
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                if (dist[i][k] + dist[k][j] > dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+
+    return dist;
+}
+
+// Thực hiện thuật toán và hiển thị kết quả
+const longestPaths = floydWarshallLongestPath(graph);
+console.log("Đường đi dài nhất giữa các trạm biến áp:");
+console.log(longestPaths);
+
+    }
+</script>
+</body>
+</html>

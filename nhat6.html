@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoanprim()" type="submit" value="baitoanprim">
+    <script>
+        function baitoanprim(){ 
+
+// Định nghĩa một đồ thị dưới dạng ma trận trọng số
+const graph = [
+    [0, 2, 0, 6, 0],
+    [2, 0, 3, 8, 5],
+    [0, 3, 0, 0, 7],
+    [6, 8, 0, 0, 9],
+    [0, 5, 7, 9, 0]
+];
+
+// Hàm thực hiện thuật toán Prim để tạo cây bao phủ trọng số nhỏ nhất
+function primMST(graph) {
+    const parent = [];
+    const key = [];
+    const mstSet = [];
+
+    // Khởi tạo key của tất cả các đỉnh với giá trị vô cùng lớn và tất cả các đỉnh đều chưa thuộc cây
+    for (let i = 0; i < graph.length; i++) {
+        key[i] = Infinity;
+        mstSet[i] = false;
+    }
+
+    // Chọn đỉnh đầu tiên làm gốc và key của nó là 0 để bắt đầu thuật toán
+    key[0] = 0;
+    parent[0] = -1;
+
+    for (let count = 0; count < graph.length - 1; count++) {
+        // Chọn đỉnh có key nhỏ nhất chưa được xử lý
+        const u = minKey(key, mstSet);
+
+        // Đánh dấu đỉnh đã được xử lý
+        mstSet[u] = true;
+
+        // Cập nhật key và parent của các đỉnh kề của đỉnh vừa chọn
+        for (let v = 0; v < graph.length; v++) {
+            if (graph[u][v] && !mstSet[v] && graph[u][v] < key[v]) {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+
+    // Hiển thị cây bao phủ trọng số nhỏ nhất
+    console.log("Các kết nối mạng cần thiết:");
+    for (let i = 1; i < graph.length; i++) {
+        console.log(parent[i] + " - " + i);
+    }
+}
+
+// Hàm tìm đỉnh có key nhỏ nhất chưa được xử lý
+function minKey(key, mstSet) {
+    let min = Infinity;
+    let minIndex = -1;
+
+    for (let v = 0; v < key.length; v++) {
+        if (mstSet[v] === false && key[v] < min) {
+            min = key[v];
+            minIndex = v;
+        }
+    }
+
+    return minIndex;
+}
+
+// Thực hiện thuật toán Prim và hiển thị kết quả
+primMST(graph);
+
+    }
+</script>
+</body>
+</html>

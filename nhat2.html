@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoantontai()" type="submit" value="baitoantontai">
+    <script>
+        function baitoantontai(){ 
+      
+            const SIDE_LENGTH = 3; // Độ dài cạnh của lục giác thần bí
+const NUMBERS = 19; // Số nguyên từ 1 đến 19
+
+// Hàm kiểm tra xem tổng của 6 hướng của lục giác có bằng nhau không
+function checkEqualSums(hexagon) {
+    const targetSum = hexagon[0] + hexagon[1] + hexagon[2];
+
+    // Kiểm tra các hàng ngang và đường chéo
+    for (let i = 0; i < SIDE_LENGTH; i++) {
+        const sum = hexagon[i] + hexagon[SIDE_LENGTH + i] + hexagon[2 * SIDE_LENGTH - i];
+        if (sum !== targetSum) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Hàm quay lui để thử tất cả các cách xếp hợp lệ
+function generateHexagonPermutations(hexagon, used, result) {
+    if (hexagon.length === NUMBERS) {
+        if (checkEqualSums(hexagon)) {
+            result.push(hexagon.slice()); // Thêm một cách xếp hợp lệ vào kết quả
+        }
+        return;
+    }
+
+    for (let i = 1; i <= NUMBERS; i++) {
+        if (!used[i]) {
+            used[i] = true;
+            hexagon.push(i);
+
+            // Đệ quy để thử tất cả các cách xếp có thể
+            generateHexagonPermutations(hexagon, used, result);
+
+            hexagon.pop();
+            used[i] = false;
+        }
+    }
+}
+
+// Hàm chính để tìm và in ra các cách xếp hợp lệ
+function findValidHexagonPermutations() {
+    const hexagon = []; // Lưu trữ các số nguyên trên lục giác thần bí
+    const used = Array(NUMBERS + 1).fill(false); // Đánh dấu các số đã được sử dụng
+    const result = []; // Kết quả chứa các cách xếp hợp lệ
+
+    generateHexagonPermutations(hexagon, used, result);
+
+    return result;
+}
+
+// Tìm và in ra các cách xếp hợp lệ
+const validPermutations = findValidHexagonPermutations();
+console.log("Các cách xếp hợp lệ của các số từ 1 đến 19 trên lục giác thần bí:");
+console.log(validPermutations);
+
+
+    }
+</script>
+</body>
+</html>

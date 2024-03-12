@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoanlk()" type="submit" value="baitoanlk">
+    <script>
+        function baitoanlk(){ 
+      
+// Hàm đệ quy để tạo và liệt kê tất cả các dãy số tự nhiên có tổng là 10 và không vượt quá 4
+function generateSequences(currentSeq, currentSum, results) {
+    // Nếu tổng hiện tại đạt được 10, thêm dãy số này vào kết quả
+    if (currentSum === 10) {
+        results.push(currentSeq.slice());
+        return;
+    }
+
+    // Nếu tổng hiện tại vượt quá 10 hoặc độ dài dãy hiện tại đạt tối đa 4, không cần tiếp tục
+    if (currentSum > 10 || currentSeq.length === 4) {
+        return;
+    }
+
+    // Thử tất cả các số từ 1 đến 10
+    for (let i = 1; i <= 10; i++) {
+        // Nếu tổng hiện tại cộng thêm số i không vượt quá 10, thêm số i vào dãy và gọi đệ quy
+        if (currentSum + i <= 10) {
+            currentSeq.push(i);
+            generateSequences(currentSeq, currentSum + i, results);
+            currentSeq.pop(); // Quay lui để thử số khác
+        }
+    }
+}
+
+// Hàm chính để tìm và in ra tất cả các dãy số thỏa mãn yêu cầu
+function findSequences() {
+    const results = []; // Kết quả chứa tất cả các dãy số thỏa mãn yêu cầu
+    generateSequences([], 0, results);
+    return results;
+}
+
+// Tìm và in ra tất cả các dãy số thỏa mãn yêu cầu
+const sequences = findSequences();
+console.log("Tất cả các dãy số tự nhiên có tổng là 10 và không vượt quá 4:");
+console.log(sequences);
+
+
+    }
+</script>
+</body>
+</html>

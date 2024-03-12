@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoanbfs()" type="submit" value="baitoanbfs">
+    <script>
+        function baitoanbfs(){ 
+
+// Định nghĩa một bảng cờ 8x8
+const board = [
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_', '_']
+];
+
+// Hàm kiểm tra xem một ô trên bảng có hợp lệ không
+function isValidMove(row, col) {
+    return row >= 0 && row < 8 && col >= 0 && col < 8;
+}
+
+// Hàm kiểm tra xem một ô trên bảng có trống không
+function isEmptySquare(row, col) {
+    return board[row][col] === '_';
+}
+
+// Hàm tìm kiếm trạng thái bắt đầu từ một ô cụ thể trên bảng
+function bfsSearch(startRow, startCol) {
+    const queue = [{ row: startRow, col: startCol }];
+    const visited = Array(8).fill().map(() => Array(8).fill(false));
+
+    visited[startRow][startCol] = true;
+
+    while (queue.length > 0) {
+        const { row, col } = queue.shift();
+
+        // Kiểm tra các ô lân cận
+        const moves = [
+            { dr: -1, dc: 0 }, { dr: 1, dc: 0 },
+            { dr: 0, dc: -1 }, { dr: 0, dc: 1 },
+            { dr: -1, dc: -1 }, { dr: -1, dc: 1 },
+            { dr: 1, dc: -1 }, { dr: 1, dc: 1 }
+        ];
+
+        for (const move of moves) {
+            const newRow = row + move.dr;
+            const newCol = col + move.dc;
+
+            if (isValidMove(newRow, newCol) && !visited[newRow][newCol] && isEmptySquare(newRow, newCol)) {
+                visited[newRow][newCol] = true;
+                queue.push({ row: newRow, col: newCol });
+                // Ở đây, bạn có thể thực hiện thêm xử lý nếu cần thiết, chẳng hạn như kiểm tra nếu ô là ô cờ vua hoặc là nước đi hợp lệ cho quân cờ
+            }
+        }
+    }
+
+    // Kết quả cuối cùng có thể là một mảng 2 chiều đã được đánh dấu để chỉ ra các ô đã được truy cập
+    return visited;
+}
+
+// Ví dụ sử dụng: Tìm kiếm từ ô (0, 0) trên bảng cờ
+const result = bfsSearch(0, 0);
+console.log(result);
+
+    }
+</script>
+</body>
+</html>

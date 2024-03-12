@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoandem()" type="submit" value="baitoandem">
+    <script>
+        function baitoandem(){ 
+            
+            function combination(n, k) {
+    // Hàm tính giai thừa
+    function factorial(num) {
+        if (num === 0 || num === 1) {
+            return 1;
+        } else {
+            return num * factorial(num - 1);
+        }
+    }
+
+    return factorial(n) / (factorial(k) * factorial(n - k));
+}
+
+// Số lượng viên bi mỗi màu
+const redBalls = 6;
+const blueBalls = 4;
+const yellowBalls = 5;
+
+// Tổng số cách chọn 3 viên bi từ hộp sao cho mỗi viên bi có màu khác nhau
+const totalWays = combination(redBalls, 1) * combination(blueBalls, 1) * combination(yellowBalls, 1);
+console.log("Số cách chọn 3 viên bi từ hộp sao cho mỗi viên bi có màu khác nhau:", totalWays);
+
+
+    }
+</script>
+</body>
+</html>
